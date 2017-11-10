@@ -2,6 +2,14 @@
 import sys
 
 
+class _SignalDef:
+    def __init__(self, name, sid, length):
+        self._name = name
+        self._sid = sid
+        self._length = length
+        self._fmt = ''
+
+
 class WaveExtractor:
 
     def __init__(self, vcd_file, json_file, path_list):
@@ -66,21 +74,19 @@ class WaveExtractor:
                 elif words[0] == '$var':
                     path = '/'.join(hier_list + [words[4]])
                     path_list.append(path)
-                    sub_dict = {}
-                    sub_dict['name'] = words[4]
-                    sub_dict['id'] = words[3]
-                    sub_dict['length'] = int(words[2])
-                    path_dict[path] = sub_dict
+                    path_dict[path] = _SignalDef(name=words[4],
+                                                 sid=words[3],
+                                                 length=int(words[2]))
                 elif words[0] == '$upscope':
                     del hier_list[-1]
 
         def update_path_dict(path_list, path_dict):
             new_path_dict = {}
             for path in path_list:
-                sub_dict = path_dict.get(path, None)
-                if not sub_dict:
+                signal_def = path_dict.get(path, None)
+                if not signal_def:
                     raise ValueError('Can\'t find path "{0}".'.format(path))
-                new_path_dict[path] = sub_dict
+                new_path_dict[path] = signal_def
             return new_path_dict
 
         fin = open(self._vcd_file, 'rt')
@@ -125,7 +131,7 @@ class WaveExtractor:
         """
         if fmt not in ('b', 'd', 'u', 'x', 'X'):
             raise ValueError('"{0}": Invalid format character.'.format(fmt))
-        self._path_dict[signal_path]['format'] = fmt
+        self._path_dict[signal_path]._fmt = fmt
         return 0
 
     def execute(self):
@@ -140,8 +146,8 @@ class WaveExtractor:
         sampler = _SignalSampler(wave_chunk, start_time, end_time)
         jsongen = _JsonGenerator(path_list, path_dict, wave_chunk)
 
-        clock_id = path_dict[path_list[0]]['id']
-        id_list = [path_dict[path]['id'] for path in path_list]
+        clock_id = path_dict[path_list[0]]._sid
+        id_list = [path_dict[path]._sid for path in path_list]
         value_dict = {sid: 'x' for sid in id_list}
         sample_dict = {sid: [] for sid in id_list}
 
@@ -229,8 +235,8 @@ class _JsonGenerator():
         self._path_list = path_list
         self._path_dict = path_dict
         self._wave_chunk = wave_chunk
-        self._clock_name = path_dict[path_list[0]]['name']
-        self._name_width = max([len(path_dict[path]['name'])
+        self._clock_name = path_dict[path_list[0]]._name
+        self._name_width = max([len(path_dict[path]._name)
                                 for path in path_list])
 
     def create_header(self):
@@ -292,15 +298,15 @@ class _JsonGenerator():
         json += "  {},\n"
         json += "  ["+group+",\n"
         for path in self._path_list[1:]:
-            name   = self._path_dict[path]['name']
-            sid    = self._path_dict[path]['id']
-            length = self._path_dict[path]['length']
+            name   = self._path_dict[path]._name
+            sid    = self._path_dict[path]._sid
+            length = self._path_dict[path]._length
             if length == 1:
                 name = "'{0}'".format(name).ljust(self._name_width + 2)
                 wave = create_wave(sample_dict[sid])
                 json += "    { name: "+name+", wave: "+wave+" },\n"
             else:
-                fmt = self._path_dict[path].get('format', 'x')
+                fmt = self._path_dict[path]._fmt
                 name = "'{0}'".format(name).ljust(self._name_width + 2)
                 wave, data = create_wave_data(sample_dict[sid], length, fmt)
                 json += "    { name: "+name+", wave: "+wave+\
