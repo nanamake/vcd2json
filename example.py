@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Examples of using the vcd2json module."""
 
 from vcd2json import WaveExtractor
