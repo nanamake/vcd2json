@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Examples of using the vcd2json module."""
 
 from vcd2json import WaveExtractor
@@ -98,22 +98,22 @@ if __name__ == '__main__':
 
     # Example 3
     # ----------------------------------------
-    # { head: {tock:1},
-    #   signal: [
-    #   {   name: 'clock'     , wave: 'p.........' },
+    # { "head": {"tock":1},
+    #   "signal": [
+    #   {   "name": "clock"     , "wave": "p........." },
     #   {},
-    #   ['110',
-    #     { name: 'reset'     , wave: '1...0.....' },
-    #     { name: 'pulse'     , wave: 'x0........' },
-    #     { name: 'count_eq11', wave: '0.........' },
-    #     { name: 'count'     , wave: '=....=====', data: '0 1 2 3 4 5' },
+    #   ["110",
+    #     { "name": "reset"     , "wave": "1...0....." },
+    #     { "name": "pulse"     , "wave": "x0........" },
+    #     { "name": "count_eq11", "wave": "0........." },
+    #     { "name": "count"     , "wave": "=....=====", "data": "0 1 2 3 4 5" }
     #   ],
     #   {},
-    #   ['310',
-    #     { name: 'reset'     , wave: '0.........' },
-    #     { name: 'pulse'     , wave: '0.....10..' },
-    #     { name: 'count_eq11', wave: '0....10...' },
-    #     { name: 'count'     , wave: '==========', data: '6 7 8 9 10 11 0 1 2 3' },
-    #   ],
-    #   ],
+    #   ["310",
+    #     { "name": "reset"     , "wave": "0........." },
+    #     { "name": "pulse"     , "wave": "0.....10.." },
+    #     { "name": "count_eq11", "wave": "0....10..." },
+    #     { "name": "count"     , "wave": "==========", "data": "6 7 8 9 10 11 0 1 2 3" }
+    #   ]
+    #   ]
     # }

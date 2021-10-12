@@ -24,31 +24,31 @@ extractor.execute()
 
 The following JSON formatted text is generated.
 
-    { head: {tock:1},
-      signal: [
-      {   name: 'clock'     , wave: 'p...................' },
+    { "head": {"tock":1},
+      "signal": [
+      {   "name": "clock"     , "wave": "p..................." },
       {},
-      ['10',
-        { name: 'reset'     , wave: '0...1....0..........' },
-        { name: 'pulse'     , wave: 'x.....0.............' },
-        { name: 'count_eq11', wave: 'x....0..............' },
-        { name: 'count'     , wave: 'x....=....==========', data: '0 1 2 3 4 5 6 7 8 9 a' },
-      ],
-      {},
-      ['410',
-        { name: 'reset'     , wave: '0...................' },
-        { name: 'pulse'     , wave: '010..........10.....' },
-        { name: 'count_eq11', wave: '10..........10......' },
-        { name: 'count'     , wave: '====================', data: 'b 0 1 2 3 4 5 6 7 8 9 a b 0 1 2 3 4 5 6' },
+      ["10",
+        { "name": "reset"     , "wave": "0...1....0.........." },
+        { "name": "pulse"     , "wave": "x.....0............." },
+        { "name": "count_eq11", "wave": "x....0.............." },
+        { "name": "count"     , "wave": "x....=....==========", "data": "0 1 2 3 4 5 6 7 8 9 a" }
       ],
       {},
-      ['810',
-        { name: 'reset'     , wave: '0........' },
-        { name: 'pulse'     , wave: '0....10..' },
-        { name: 'count_eq11', wave: '0...10...' },
-        { name: 'count'     , wave: '=========', data: '7 8 9 a b 0 1 2 3' },
+      ["410",
+        { "name": "reset"     , "wave": "0..................." },
+        { "name": "pulse"     , "wave": "010..........10....." },
+        { "name": "count_eq11", "wave": "10..........10......" },
+        { "name": "count"     , "wave": "====================", "data": "b 0 1 2 3 4 5 6 7 8 9 a b 0 1 2 3 4 5 6" }
       ],
-      ],
+      {},
+      ["810",
+        { "name": "reset"     , "wave": "0........" },
+        { "name": "pulse"     , "wave": "0....10.." },
+        { "name": "count_eq11", "wave": "0...10..." },
+        { "name": "count"     , "wave": "=========", "data": "7 8 9 a b 0 1 2 3" }
+      ]
+      ]
     }
 
 You can create SVG image from WaveJSON by using JavaScript application WaveDrom.
