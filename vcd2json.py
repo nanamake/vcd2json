@@ -67,6 +67,8 @@ class WaveExtractor:
                 if not line:
                     raise EOFError('Can\'t find word "$enddefinitions".')
                 words = line.split()
+                if not words:
+                    continue
                 if words[0] == '$enddefinitions':
                     return path_list, path_dict
                 if words[0] == '$scope':
@@ -198,6 +200,8 @@ class _SignalSampler():
                 continue
             char = words[0][0]
             if char == '$':
+                continue
+            if char == 'r':
                 continue
             if char in ('0', '1', 'x', 'z'):
                 sid = words[0][1:]
