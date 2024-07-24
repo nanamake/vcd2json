@@ -51,6 +51,68 @@ The following JSON formatted text is generated.
       ]
     }
 
+## Optional: States:
+
+You can pass a dictionary with the FSM states of given signals and the tool will change the numerical format by the name of the state.
+i.e.
+
+
+```python
+from vcd2json import WaveExtractor
+
+path_list = ['tb_timer/u_fsm/clock',
+             'tb_timer/u_fsm/reset',
+             'tb_timer/u_fsm/state']
+states_dict = {
+    "tb_timer/u_fsm/state[3:0]": {
+        0: "IDLE",
+        1: "STATE1",
+        2: "STATE2",
+        3: "STATE3",
+        4: "STATE4",
+        5: "STATE5",
+        6: "STATE6",
+        7: "STATE7",
+        8: "STATE8",
+        9: "STATE9",
+    },
+}
+
+extractor = WaveExtractor('PATH_TO_YOUR_VCD.vcd', 'fsm.json', path_list)
+extractor.execute()
+```
+
+The following JSON formatted text is generated.
+
+```
+    { "head": {"tock":1},
+      "signal": [
+      {   "name": "clock"     , "wave": "p..................." },
+      {},
+      ["10",
+        { "name": "reset"     , "wave": "0...1....0.........." },
+        { "name": "pulse"     , "wave": "x.....0............." },
+        { "name": "fsm"     , "wave": "x....=....==========", "data": "IDLE STATE1 STATE2 STATE3 STATE4 STATE5 STATER6 STATE7 STATE 8 STATE9" }
+      ],
+      ]
+    }
+```
+
+Instead of
+```
+    { "head": {"tock":1},
+      "signal": [
+      {   "name": "clock"     , "wave": "p..................." },
+      {},
+      ["10",
+        { "name": "reset"     , "wave": "0...1....0.........." },
+        { "name": "pulse"     , "wave": "x.....0............." },
+        { "name": "state"     , "wave": "x....=....==========", "data": "0 1 2 3 4 5 6 7 8 9" }
+      ],
+      ]
+    }
+```
+
 You can create SVG image from WaveJSON by using JavaScript application WaveDrom.
 
 ![timing diagram](timer.png)
